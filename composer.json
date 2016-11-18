@@ -1,0 +1,31 @@
+{
+    "name"       :"lacodda/bxcomponent",
+    "description":"Base Bitrix component implementing MVC pattern",
+    "keywords"   :[
+        "bitrix",
+        "component",
+        "mvc"
+    ],
+    "type"       :"library",
+    "license"    :"MIT",
+    "homepage"   :"https://github.com/Lacodda/BxComponent",
+    "support"    :{
+        "issues":"https://github.com/Lacodda/BxComponent/issues",
+        "source":"https://github.com/Lacodda/BxComponent/"
+    },
+    "authors"    :[
+        {
+            "name" :"Kirill Lahtachev",
+            "email":"lahtachev@gmail.com"
+        }
+    ],
+    "require"    :{
+        "php"             :">=5.4",
+        "lacodda/bxmodule":"dev-master"
+    },
+    "autoload"   :{
+        "psr-4":{
+            "Lacodda\\BxComponent\\":"src/"
+        }
+    }
+}
