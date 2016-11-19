@@ -3,6 +3,7 @@
 
     use Bitrix\Main\Application;
     use Bitrix\Main\NotImplementedException;
+    use Bitrix\Main\Localization\Loc;
     use Lacodda\BxModule\Helper\Lang;
 
     /**
@@ -493,11 +494,9 @@
                 }
 
                 $this->arResult['status_code'] = $response;
-            } elseif (($cacheOptions === true AND $this->startResultCache ())
-            //Если включен кеш без дополнительных параметров OR
-            (
-                is_string ($cacheOptions) AND $this->startResultCache ($this->arParams['CACHE_TIME'], $cacheOptions)
-            ) //Или если сдополнительными параметрами
+            } elseif (($cacheOptions === true AND $this->startResultCache ()) OR //Если включен кеш без дополнительных параметров
+                (is_string ($cacheOptions) AND
+                    $this->startResultCache ($this->arParams['CACHE_TIME'], $cacheOptions)) //Или если сдополнительными параметрами
             )
             {
                 $this->includeLangTree ();
