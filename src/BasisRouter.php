@@ -44,11 +44,30 @@
          */
         protected $sefFolder;
 
+        /**
+         * @var
+         */
         protected $urlTemplates;
 
+        /**
+         * @var
+         */
         protected $variables;
 
+        /**
+         * @var
+         */
         protected $variableAliases;
+
+        /**
+         * @var
+         */
+        protected $models;
+
+        /**
+         * @var
+         */
+        protected $componentModels;
 
         /**
          * Set default parameters for SEF URL's
@@ -61,6 +80,8 @@
             ];
 
             $this->componentVariables = ['ELEMENT_ID'];
+
+            $this->componentModels = [''];
         }
 
         /**
@@ -141,6 +162,8 @@
                     $variableAliases,
                     $variables
                 );
+
+                $models = $this->setModels ();
             } else
             {
                 $this->templatePage = $this->defaultPage;
@@ -150,16 +173,56 @@
             $this->urlTemplates = $urlTemplates;
             $this->variables = $variables;
             $this->variableAliases = $variableAliases;
+            $this->models = $models;
         }
 
+        /**
+         * @return array|bool
+         */
+        protected function setModels ()
+        {
+            $models = false;
+
+            if (is_array ($this->componentModels))
+            {
+                $models = [];
+                foreach ($this->componentModels as $module => $moduleModels)
+                {
+                    $module = trim ($module);
+
+                    $models['module'][] = $module;
+
+                    \CModule::IncludeModule ($module);
+
+                    foreach ($moduleModels as $model => $className)
+                    {
+                        $model = strtolower (trim ($model));
+                        if (class_exists ($className))
+                        {
+                            $models['model'][$model] = $className;
+                        }
+                    }
+                }
+            }
+
+            return $models;
+        }
+
+        /**
+         *
+         */
         protected function executeMain ()
         {
             $this->arResult['FOLDER'] = $this->sefFolder;
             $this->arResult['URL_TEMPLATES'] = $this->urlTemplates;
             $this->arResult['VARIABLES'] = $this->variables;
             $this->arResult['ALIASES'] = $this->variableAliases;
+            $this->arResult['MODELS'] = $this->models;
         }
 
+        /**
+         *
+         */
         final public function executeBasis ()
         {
             $this->includeModules ();
@@ -180,6 +243,9 @@
             $this->stopAjax ();
         }
 
+        /**
+         *
+         */
         public function executeComponent ()
         {
             try
