@@ -7,6 +7,8 @@
 
     namespace Lacodda\BxComponent;
 
+    use Plasticbrain\FlashMessages\FlashMessages;
+
     /**
      * Abstraction basis component
      *
@@ -26,6 +28,11 @@
          * @var array Used traits
          */
         private $usedTraits;
+
+        /**
+         * @var
+         */
+        public $msg;
 
         /**
          * Executing methods prolog, getResult and epilog included traits
@@ -87,8 +94,12 @@
             }
         }
 
+        /**
+         *
+         */
         final protected function executeBasis ()
         {
+            $this->msg = new FlashMessages();
             $this->readUsedTraits ();
             $this->includeModules ();
             $this->configurate ();
@@ -122,6 +133,9 @@
             $this->stopAjax ();
         }
 
+        /**
+         *
+         */
         public function executeComponent ()
         {
             try

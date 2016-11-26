@@ -68,6 +68,16 @@
         }
 
         /**
+         * @return $this
+         */
+        public function add ()
+        {
+            $this->url = implode ('/', [$this->url, 'add']);
+
+            return $this;
+        }
+
+        /**
          * @return string
          */
         public function get ()
